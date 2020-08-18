@@ -34,9 +34,9 @@ function processFirstItem(stringList, callback) {
       //The first counter uses a closure as it has a child level function within the function counterMaker.
 
 //3. In what scenario would the counter1 code be preferable? In what scenario would counter2 be better? 
- //counter1 variable can't be accessed outside the function; counter2 would preferable if you had more functions trying to access the variable outside of the function 
+ //counter1 variable can't be accessed outside the function; counter2 would preferable if you had more functions trying to access the variable  as it is outside of the function 
 
-// counter1 code
+// counter1 code- keeping track of mulitple counts
 function counterMaker() {
   let count = 0;
   return function counter() {
@@ -44,11 +44,14 @@ function counterMaker() {
   }
 }
 const counter1 = counterMaker();
+const counter3 = counterMaker();
 
 console.log(counter1())
 console.log (counter1(2))
+console.log (counter3 ())
+console.log (counter1())
 
-//counter2 code
+//counter2 code-only keeping track of 1 count
 let count = 0;
 
 function counter2() {
@@ -87,7 +90,7 @@ finalScore(inning, 9) might return:
         home = home + inning ();
         away = away + inning ();
       }
-      return {"home":home, "away":away};
+      return {home,away};
     }
     console.log (finalScore(inning,5));
 
@@ -123,7 +126,7 @@ function scoreBoard(getInningScore, inning, num) {
   let home = 0;
   let away = 0;
   let inningScore =[]
-  for (let i=1; i<num; i++){
+  for (let i=0; i<num; i++){
     const newInning= getInningScore(inning) //invoking getInningScore and setting it to newInnings 
     home = home + newInning.home; //.home dot notion to return home from inside in the object in the getInningScore function
     away = away + newInning.away;

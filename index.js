@@ -27,14 +27,14 @@ function processFirstItem(stringList, callback) {
  * Study the code for counter1 and counter2. Answer the questions below.*/
  
 //1. What is the difference between counter1 and counter2?
- 
+ //Counter1 uses a closure. Counter2 defines variable outside of the function- global scope 
  
 //2. Which of the two uses a closure? How can you tell?
 
       //The first counter uses a closure as it has a child level function within the function counterMaker.
 
 //3. In what scenario would the counter1 code be preferable? In what scenario would counter2 be better? 
- 
+ //counter1 variable can't be accessed outside the function; counter2 would preferable if you had more functions trying to access the variable outside of the function 
 
 // counter1 code
 function counterMaker() {
@@ -46,6 +46,7 @@ function counterMaker() {
 const counter1 = counterMaker();
 
 console.log(counter1())
+console.log (counter1(2))
 
 //counter2 code
 let count = 0;
@@ -55,6 +56,7 @@ function counter2() {
 }
 
 console.log (counter2())
+console.log (counter2(2))
 
 /* Task 2: inning() 
 
@@ -62,7 +64,9 @@ Write a function called `inning` that returns a random number of points that a t
 
 function inning(){
 let points =  Math.floor(Math.random() * 3);
+return points;
 }
+console.log(inning());
 
 /* Task 3: finalScore()
 
@@ -74,16 +78,16 @@ finalScore(inning, 9) might return:
   "Home": 11,
   "Away": 5,
 }
-
-*/  
+*/  //setting two variables home and away -- in for loop as long as i<number of innings then we are going to add 1 one too it and set home equal 
 
      function finalScore(inning, num){
-      let score = {'Home':0, 'Away':0};
+      let home = 0
+      let away = 0
       for (let i=0; i< num; i++){
-        score ['Home']=score ['Home'] +inning ();
-        score ['Away']= score ['Away'] +inning ();
+        home = home + inning ();
+        away = away + inning ();
       }
-      return score;
+      return {"home":home, "away":away};
     }
     console.log (finalScore(inning,5));
 
@@ -107,18 +111,30 @@ and returns the score at each pont in the game, like so:
 9th inning: awayTeam - homeTeam
 Final Score: awayTeam - homeTeam */
 
+//function scoreboard is the higher order function? need to pass through getInningScore? where is this defined and 
 
-function scoreboard(getInningScore, inning, num) {
+function getInningScore (inning){
+  return {"home":inning(),"away":inning()}
+}
+//console.log(getInningScore(inning))
+
+//scoreBoard- higher order function
+function scoreBoard(getInningScore, inning, num) {
   let home = 0;
   let away = 0;
-  for (let i=1; i< inning; i++){
-    home = home + getInningScore(inning.i).home;
-    away = away + getInningScore (inning.i).away;
-    console.log (`inning:${i} Home:${home} Away: ${away}`)
+  let inningScore =[]
+  for (let i=1; i<num; i++){
+    const newInning= getInningScore(inning) //invoking getInningScore and setting it to newInnings 
+    home = home + newInning.home; //.home dot notion to return home from inside in the object in the getInningScore function
+    away = away + newInning.away;
+    //array created at top
+    inningScore.push(`inning:${i+1} Home:${newInning.home} Away: ${newInning.away}`)
+   
   }
-return getInningScore(inning, num );
+  return inningScore;
 }
 
+console.log (scoreBoard(getInningScore,inning,9));
 
 
 

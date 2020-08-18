@@ -76,7 +76,7 @@ The return statement always reads "Dan rolled a .." but the number which he roll
 
 c. What is the lexical scope of `newRoll`? 
 
-newRoll can access 
+`newRoll` can not be accessed outside of the function personalDice.
 
 ### Task 2c - Exit Ticket
 
